@@ -1,0 +1,377 @@
+   
+          <!-- <div class="container-fluid" style="background-color:black;color:#fff;height:100px;"> -->
+          <!-- <h1>Site Inspection</h1>  -->
+        <!-- </div> --> 
+
+        <nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="197">
+            <ul class="nav navbar-nav">
+                <!-- <li class="active"><a href="#">Basic Topnav</a></li> -->
+                <!-- <li><button class="btn btn-outline-secondary" (click)="gotoTop()">Top</button></li> -->
+                <li><a [routerLink]="['/welcome']">Home</a></li>
+                <li><a class="btn btn-outline-secondary" (click)="toGeneralInfo()">General Info</a></li>
+                <li><a class="btn btn-outline-secondary" (click)="toGoodPhotos()">Good Photos</a></li>
+                <li><a class="btn btn-outline-secondary" (click)="toObservation()">Observation</a></li>
+                <li><a class="btn btn-outline-secondary" (click)="toSummary()">Summary Statistics</a></li>
+            </ul>
+        
+            <button style="background:none;color:white;float:right;margin-top:15px;margin-right:10px;" (click)="print()">Export to pdf</button>      
+        </nav>
+    
+    <div id="toprint">
+        <div class="container-fluid"> 
+            <div id="section1">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Inspection Info
+                        <button type="button" class="btn btn-info" id="hide-button1" style="float:right;background:none;margin-top:-5px;border-color:white" data-toggle="collapse" data-target="#section1-generalInfo">Collapse</button>
+                    </div>
+                    <div class="panel-body"  id="section1-generalInfo">
+                        <div class="col-md-6">
+                            <form  [formGroup] ="registerGeneralInfo" (ngSubmit)="generalInfo(registerGeneralInfo.value)">
+                                    <div class="form-group">
+                                        <label for="inspector">Inspector</label>
+                                        <select class="form-control" formControlName="inspector"required>
+                                            <option *ngFor="let item of inspector">{{item}}</option>
+                                        </select>
+                                        
+                                        <div  *ngIf="registerGeneralInfo.get('inspector').status =='INVALID'"  class="alert alert-danger">
+                                            Inspector name is required
+                                        </div> 
+                                    </div>
+                        
+                                    <div class="form-group">
+                                        <label for="inspectiontype">Inspection Type</label>
+                                        <select class="form-control" formControlName="inspectiontype"   required>
+                                                <option *ngFor="let item of inspectiontype">{{item}}</option>
+                                        </select>
+                    
+                                        <div  *ngIf="registerGeneralInfo.get('inspectiontype').status =='INVALID'"  class="alert alert-danger">
+                                            Inspection Type is required
+                                        </div> 
+                                    </div>
+                        
+                                    <div class="form-group">
+                                        <label for="inspectiondate">Inspection Date</label>
+                                        <input type="date"  class="form-control" formControlName="inspectiondate" required>
+                                        <div  *ngIf="registerGeneralInfo.get('inspectiondate').status =='INVALID'"  class="alert alert-danger">
+                                            Inspection Date is required
+                                        </div> 
+                                    </div>
+                    
+                    
+                                    <div class="form-group">
+                                        <label for="inspectiontime">Inspection Time</label>
+                                        <input type="time"  class="form-control" formControlName="inspectiontime" required>
+                                        <div  *ngIf="registerGeneralInfo.get('inspectiontime').status =='INVALID'"  class="alert alert-danger">
+                                            Inspection Time is required
+                                        </div> 
+                                    </div>
+                    
+                                    <div class="form-group">
+                                            <label for="inspectionnumber">Inspection Number</label>
+                                            <select class="form-control" formControlName="inspectionnumber"   required>
+                                                    <option *ngFor="let item of inspectionnumber">{{item}}</option>
+                                            </select>
+                                            <div  *ngIf="registerGeneralInfo.get('inspectionnumber').status =='INVALID'"  class="alert alert-danger">
+                                                Inspection Number is required
+                                            </div> 
+                                    </div>
+                    
+                                    <div class="form-group">
+                                            <label for="participants">Participants</label>
+                                            <select class="form-control" formControlName="participants"   required>
+                                                    <option *ngFor="let item of participants">{{item}}</option>
+                                            </select>
+                                            <div  *ngIf="registerGeneralInfo.get('participants').status =='INVALID'"  class="alert alert-danger">
+                                                Participants is required
+                                            </div> 
+                                    </div>
+                    
+                                    <div class="form-group">
+                                            <label for="summary">Observation Summary /Description</label>
+                                            <textarea class="form-control"  formControlName="summary" rows="3" required></textarea>
+                                            <div  *ngIf="registerGeneralInfo.get('summary').status =='INVALID'"  class="alert alert-danger">
+                                                Observation Summary /Description is required
+                                            </div> 
+                                    </div>
+                    
+                                    <div class="form-group"  *ngIf="msgGeneralInfo" id="hide-button13">
+                                        <div class="col-xs-12">
+                                            <p class="alert alert-success">
+                                                <strong>{{msgGeneralInfo}}</strong> 
+                                            </p>
+                                        </div>
+                                    </div>
+                            
+                                    <div id="hide-button14">
+                                        <button class="btn btn-primary" [disabled]='!registerGeneralInfo.valid'>Update</button>
+                                    </div>  
+                            </form>
+                        </div> 
+                    </div> 
+                </div>  
+            </div>    
+            <div id="section2">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Good photos
+                        <button type="button" class="btn btn-info" id="hide-button2" style="float:right;background:none;margin-top:-5px;border-color:white" data-toggle="collapse" data-target="#section2-goodPhotos">Collapse</button>
+                    </div>
+    
+                    <div class="panel-body" id="section2-goodPhotos">
+                        <div class="col-md-6">
+                            <form  [formGroup] ="registerGoodPhotos" (ngSubmit)="goodphotos(registerGoodPhotos.value)">
+                                        <div class="form-group">
+                                            <label for="Images">Choose Image for upload</label>        
+                                            <input type="file" class="form-control" formControlName="goodPhotos" name="goodPhotos" accept="image/*" (change)="detectFilesA($event)">
+                                            <img *ngIf="url1" [src]="url1" class="rounded mb-3" height="200">
+                                            <div  *ngIf="registerGoodPhotos.get('goodPhotos').status =='INVALID'"  class="alert alert-danger">
+                                                Please upload Image
+                                            </div> 
+                                        </div>
+                            
+                                        <div class="form-group">
+                                            <label for="location">Location</label>
+                                            <select class="form-control" formControlName="location"   required>
+                                                <option *ngFor="let item of location">{{item}}</option>
+                                            </select>
+                                            
+                                            <div  *ngIf="registerGoodPhotos.get('location').status =='INVALID'"  class="alert alert-danger">
+                                                Location is required
+                                            </div> 
+                                        </div>
+                            
+                                        <div class="form-group">
+                                            <label for="observe">Description</label>
+                                            <input type="text"  class="form-control" formControlName="description" required>
+                                            
+                                            <!-- <select class="form-control" formControlName="observe" required>
+                                                <option *ngFor="let item of locations">{{item}}</option>
+                                            </select> -->
+                                            <div  *ngIf="registerGoodPhotos.get('description').status =='INVALID'"  class="alert alert-danger">
+                                                Description is required
+                                            </div> 
+                                        </div>
+                            
+                                        <div class="form-group"  *ngIf="msgGoodphotos">
+                                            <div class="col-xs-12">
+                                                <p class="alert alert-success" id="hide-button3">
+                                                    <strong>{{msgGoodphotos}}</strong> 
+                                                </p>
+                                            </div>
+                                        </div>
+                                
+                                        <div id="hide-button4">
+                                            <button class="btn btn-primary"[disabled]='!registerGoodPhotos.valid'>Update</button>
+                                        </div>  
+                            </form>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            <div id="section3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                    Observation
+                    <button type="button" class="btn btn-info" id="hide-button5" style="float:right;background:none;margin-top:-5px;border-color:white" data-toggle="collapse" data-target="#section3-observation">Collapse</button>
+                    </div>
+
+
+                    
+                    <div class="panel-body" id="section3-observation">
+                        <div class="panel-heading" style="font-size:20px;text-align: center;">
+                            Before Photos
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form  [formGroup] ="registerObservation" (ngSubmit)="observation(registerObservation.value)">
+                                        <div class="form-group" id="beforePhotos">
+                                            <label for="location">Choose Image for upload</label>
+                                            <input type="file" class="form-control" formControlName="observationImages" name="observationImages" accept="image/*" (change)="detectFilesB($event)" required>
+                                            <img *ngIf="url2" [src]="url2" class="rounded mb-3" height="200" style="text-align: center; vertical-align: middle;">
+                                        </div>
+                                        <div  *ngIf="registerObservation.get('observationImages').status =='INVALID'"  class="alert alert-danger">
+                                            Please upload Image
+                                        </div> 
+            
+                                        <div class="form-group">
+                                            <label for="locations">Location</label>
+                                            <select class="form-control" formControlName="locations"   required>
+                                                <option *ngFor="let item of locations">{{item}}</option>
+                                            </select>
+                                            
+                                            <div  *ngIf="registerObservation.get('locations').status =='INVALID'"  class="alert alert-danger">
+                                                Location is required
+                                            </div> 
+                                        </div>
+                            
+                                        <div class="form-group">
+                                            <label for="observe">Observation</label>
+                                            <input type="text"  class="form-control" formControlName="observe" required>
+                                            
+                                            <!-- <select class="form-control" formControlName="observe" required>
+                                                <option *ngFor="let item of observations">{{item}}</option>
+                                            </select> -->
+                                            <div  *ngIf="registerObservation.get('observe').status =='INVALID'"  class="alert alert-danger">
+                                                Observation is required
+                                            </div> 
+                                        </div>
+                            
+                                        <div class="form-group">
+                                            <label for="followup">Follow Up Person</label>
+                                            <!-- <input type="text"  class="form-control" formControlName="followup" required> -->
+                                            
+                                            <select class="form-control" formControlName="followup" required>
+                                                <option *ngFor="let item of followup">{{item}}</option>
+                                            </select>
+                                            <div  *ngIf="registerObservation.get('followup').status =='INVALID'"  class="alert alert-danger">
+                                                Follow Up Person is required
+                                            </div> 
+                                        </div>
+                        
+                                        <div class="form-group"  *ngIf="msgObservation" id="hide-button6">
+                                            <div class="col-xs-12">
+                                                <p class="alert alert-success">
+                                                    <strong>{{msgObservation}}</strong> 
+                                                </p>
+                                            </div>
+                                        </div>
+                                
+                                        <div id="hide-button7">
+                                            <button class="btn btn-primary"  [disabled]='!registerObservation.valid'>Update</button>
+                                        </div>  
+                                </form>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="panel-heading" style="font-size:20px;text-align: center;">
+                            Rectified Photos
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                    <form  [formGroup] ="registerObservationAfter" (ngSubmit)="observationAfter(registerObservationAfter.value)">
+                                        <div class="form-group">
+                                            <label for="Images">Choose Image for upload</label>
+                                            <input type="file" class="form-control" formControlName="observationImagesAfter" name="observationImagesAfter" accept="image/*" (change)="detectFilesC($event)" required>
+                                            <img *ngIf="url3" [src]="url3" class="rounded mb-3" height="200" style="text-align: center; vertical-align: middle;">
+                                            <div  *ngIf="registerObservationAfter.get('observationImagesAfter').status =='INVALID'"  class="alert alert-danger">
+                                                Please upload Image
+                                            </div> 
+                                        </div>
+                            
+                                        <div class="form-group">
+                                            <label for="locations">Location</label>
+                                            <select class="form-control" formControlName="locations"   required>
+                                                <option *ngFor="let item of locations">{{item}}</option>
+                                            </select>
+                                            
+                                            <div  *ngIf="registerObservationAfter.get('locations').status =='INVALID'"  class="alert alert-danger">
+                                                Location is required
+                                            </div> 
+                                        </div>
+                            
+                                        <div class="form-group">
+                                            <label for="observe">Comments</label>
+                                            <input type="text"  class="form-control" formControlName="comment" required>
+                                            
+                                            <!-- <select class="form-control" formControlName="observe" required>
+                                                <option *ngFor="let item of locations">{{item}}</option>
+                                            </select> -->
+                                            <div  *ngIf="registerObservationAfter.get('comment').status =='INVALID'"  class="alert alert-danger">
+                                                Comment is required
+                                            </div> 
+                                        </div>
+            
+                                        <div class="form-group">
+                                                <label for="followup">Name</label>
+                                                <!-- <input type="text"  class="form-control" formControlName="followup" required> -->
+                                                
+                                                <select class="form-control" formControlName="name" required>
+                                                    <option *ngFor="let item of name">{{item}}</option>
+                                                </select>
+                                                <div  *ngIf="registerObservationAfter.get('name').status =='INVALID'"  class="alert alert-danger">
+                                                    Name is required
+                                                </div> 
+                                        </div>
+                            
+                                        <div class="form-group"  *ngIf="msgObservationAfter">
+                                            <div class="col-xs-12">
+                                                <p class="alert alert-success" id="hide-button8">
+                                                    <strong>{{msgObservationAfter}}</strong> 
+                                                </p>
+                                            </div>
+                                        </div>
+                                
+                                        <div id="hide-button9">
+                                            <button class="btn btn-primary" [disabled]='!registerObservationAfter.valid'>Update</button>
+                                        </div>  
+                                    </form>
+                            </div>
+                        </div>
+                    </div>       
+                </div>
+            </div> 
+           
+            <div id="section4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Summary
+                        <button type="button" class="btn btn-info" id="hide-button10" data-toggle="collapse" data-target="#section4-summary">Collapse</button>
+                    </div>
+                    <div class="panel-body" id="section4-summary">
+                        <div class="col-md-6">
+                            <form  [formGroup] ="registerStatistics" (ngSubmit)="statistics(registerStatistics.value)">
+                                    <div class="row" style="padding:10px;">
+                                        <div class="form-group">
+                                            <label for="summary">Observation Summary /Description</label>
+                                            <textarea class="form-control"  formControlName="summary" rows="3" required></textarea>
+                                            <div  *ngIf="registerStatistics.get('summary').status =='INVALID'"  class="alert alert-danger">
+                                                Summary /Description is required
+                                            </div> 
+                                        </div>  
+                                    </div>
+                                    <div class="form-group"  *ngIf="msgSummary">
+                                        <div class="col-xs-12">
+                                            <p class="alert alert-success"   id="hide-button11">
+                                                <strong>{{msgSummary}}</strong> 
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div  id="hide-button12">
+                                        <button class="btn btn-primary" [disabled]='!registerStatistics.valid'>Update</button>
+                                    </div>  
+                            </form> 
+                        </div>
+                    </div>
+                </div>  
+            </div> 
+
+            <div id="section5">
+                <div class="form-group" id="hide-button1">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"> Signature</div>
+                        <ng-signature-pad
+                        doneButtonText="Update"
+                        format="base64"
+                        (done)="showImage($event)">
+                        </ng-signature-pad>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      
+
+       
+
+        
+               
+                
+      
+
+    
+
+   
+
+
